@@ -1,0 +1,277 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>leader election · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2" data-path="leader-election.html">
+            
+                <a href="leader-election.html">
+            
+                    
+                    leader election
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >leader election</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="leader-election">leader election</h2>
+<h4 id="1-&#x4EC0;&#x4E48;&#x662F;-leader-election">1. &#x4EC0;&#x4E48;&#x662F; leader election</h4>
+<p>&#x5728;&#x5206;&#x5E03;&#x5F0F;&#x8BA1;&#x7B97;&#x4E2D;&#xFF0C;&#x4ECE;&#x591A;&#x4E2A;&#x8282;&#x70B9;&#x4E2D;&#x9009;&#x4E3E;&#x4E00;&#x4E2A;leader</p>
+<p>[<a href="https://en.wikipedia.org/wiki/Leader_election" target="_blank">https://en.wikipedia.org/wiki/Leader_election</a>]</p>
+<h4 id="2-leader-election-example">2. leader election example</h4>
+<p>&#x542F;&#x52A8; leader elector &#x5BB9;&#x5668;&#xFF1A;</p>
+<pre><code class="lang-bash">$ kubectl run leader-elector --image=gcr.io/google_containers/leader-elector:0.5 --replicas=3 -- --election=example&#x200B;
+</code></pre>
+<p>k8s &#x542F;&#x52A8;&#x4E86;3&#x4E2A;&#x5BB9;&#x5668;&#xFF1A;</p>
+<pre><code>$ kubectl get pods
+NAME                   READY     STATUS    RESTARTS   AGE
+leader-elector-inmr1   1/1       Running   0          13s
+leader-elector-qkq00   1/1       Running   0          13s
+leader-elector-sgwcq   1/1       Running   0          13s
+</code></pre><p>&#x53EF;&#x4EE5;&#x901A;&#x8FC7; kubectl logs &#x67E5;&#x770B;&#x5BB9;&#x5668;&#x65E5;&#x5FD7;&#xFF1A;</p>
+<pre><code>$ kubectl logs -f ${pod_name}
+</code></pre><p>&#x73B0;&#x5728; k8s &#x96C6;&#x7FA4;&#x4E2D;&#x6709;&#x4E00;&#x4E2A;&#x53EB; example &#x7684; endpoints&#xFF1A;</p>
+<pre><code># &#x2018;example&#x2019; is the name of the candidate set from the above kubectl run &#x2026; command
+$ kubectl get endpoints example -o yaml
+apiVersion: v1
+kind: Endpoints
+metadata:
+  annotations:
+    control-plane.alpha.kubernetes.io/leader: &apos;{&quot;holderIdentity&quot;:&quot;leader-elector-1591020587-inmr1&quot;,&quot;leaseDurationSeconds&quot;:10,&quot;acquireTime&quot;:&quot;2017-11-07T07:17:13Z&quot;,&quot;renewTime&quot;:&quot;2017-11-16T06:36:32Z&quot;,&quot;leaderTransitions&quot;:0}&apos;
+  creationTimestamp: 2017-11-07T06:59:10Z
+  name: example
+  namespace: default
+  resourceVersion: &quot;37362459&quot;
+  selfLink: /api/v1/namespaces/default/endpoints/example
+  uid: 280b4d20-c389-11e7-95b9-9418820918cc
+subsets: []
+&#x200B;
+</code></pre><p>&#x53EF;&#x4EE5;&#x770B;&#x5230; &quot;leader-elector-1591020587-inmr1&quot; &#x5C31;&#x662F;&#x5F53;&#x524D;&#x7684; leader</p>
+<p>&#x5220;&#x9664;&#x8FD9;&#x4E2A;&#x5BB9;&#x5668;&#x4E4B;&#x540E;&#xFF0C;k8s&#x4F1A;&#x91CD;&#x542F;&#x4E00;&#x4E2A;&#x65B0;&#x7684;&#x5BB9;&#x5668;&#x5E76;&#x4E14;&#x91CD;&#x65B0;&#x9009;&#x4E3E; leader</p>
+<p>&#x901A;&#x8FC7;&#x67E5;&#x770B;&#x4EE3;&#x7801; [<a href="https://github.com/kubernetes/contrib/tree/master/election" target="_blank">https://github.com/kubernetes/contrib/tree/master/election</a>] &#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;&#x6BCF;&#x6B21;&#x9009;&#x4E3E;&#xFF0C;&#x9009;&#x4E3E;&#x7684;&#x5185;&#x5BB9;&#x5C31;&#x653E;&#x5728;&#x8FD9;&#x4E2A;&#x53EB; example &#x7684; endpoints &#x91CC; &#xFF08;&#x9009;&#x4E3E;&#x54EA;&#x4E2A; leader &#x7684;&#x7B97;&#x6CD5;&#x8FD9;&#x91CC;&#x5C31;&#x5148;&#x5FFD;&#x7565;&#x4E0D;&#x8C08;&#xFF09;&#xFF0C;&#x6709;&#x8FC7;&#x671F;&#x65F6;&#x95F4;&#xFF0C;&#x6BCF;&#x4E2A;&#x8282;&#x70B9;&#x4ECE; example &#x4E2D;&#x5F97;&#x77E5; leader &#x4FE1;&#x606F;&#xFF0C;&#x8FC7;&#x671F;&#x91CD;&#x9009;&#x3002;&#x4FDD;&#x8BC1;&#x8FD9;&#x51E0;&#x4E2A;&#x5BB9;&#x5668;&#x4E2D;&#x53EA;&#x6709;&#x4E00;&#x4E2A; leader&#x3002;</p>
+<h4 id="3-leader-election-&#x5728;-ingress-nginx-controller-&#x4E2D;&#x7684;&#x5E94;&#x7528;">3. leader election &#x5728; ingress-nginx-controller &#x4E2D;&#x7684;&#x5E94;&#x7528;</h4>
+<p>ingress-nginx-controller &#x5728; <a href="https://github.com/kubernetes/ingress-nginx/blob/nginx-0.9.0-beta.17/pkg/ingress/status/status.go" target="_blank">status.go</a> &#x4E2D;&#x7528;&#x5230;&#x4E86; leader election&#x3002;ingress-nginx-controller &#x4F1A; watch k8s &#x96C6;&#x7FA4;&#x4E2D; ingress &#x7684;&#x72B6;&#x6001;&#xFF0C;&#x5E76;&#x4E14;&#x751F;&#x6210;&#x76F8;&#x5E94;&#x7684;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x3002;&#x4E00;&#x822C; k8s &#x4E2D;&#x4F1A;&#x6709;&#x591A;&#x4E2A; ingress-nginx-controller&#xFF0C;&#x4E3A;&#x4E86;&#x4FDD;&#x8BC1;&#x6570;&#x636E;&#x7684;&#x7EDF;&#x4E00;&#xFF0C;&#x9700;&#x8981;&#x9009;&#x4E3E;&#x51FA;&#x4E00;&#x4E2A; leader &#x8FDB;&#x884C;&#x64CD;&#x4F5C;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Introduction">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"leader election","level":"1.2","depth":1,"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"leader-election.md","mtime":"2017-11-16T07:40:59.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-11-16T07:44:44.300Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
