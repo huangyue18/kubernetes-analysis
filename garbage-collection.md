@@ -8,11 +8,8 @@
    $ kubectl run busybox --image=busybox --command -- sleep 3600
    ```
 
-2. check busybox pod  
-  
-  
+2. check busybox pod
 
-3. 
 #### Codes \(kubelet\)
 
 #### References
