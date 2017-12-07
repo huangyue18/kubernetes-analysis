@@ -12,7 +12,8 @@ Pods can be placed onto a particular node in a number of ways. This case study d
 3. The pod is accepted.
    1. A new UID is assigned.
 4. The pod is bound to a node.
-   1. The kubelet on the node is passed the pod's UID, Namespace, and Name.
+   1. The kube-scheduler selects one node for the pod. \([http://dockone.io/article/2885](http://dockone.io/article/2885)\)
+   2. The kubelet on the node is passed the pod's UID, Namespace, and Name.
 5. Kubelet validates the input.
 6. Kubelet runs the pod.
    1. Each container is started up with enough metadata to distinguish the pod from whence it came.
@@ -33,7 +34,5 @@ Pods can be placed onto a particular node in a number of ways. This case study d
 
 ### Reference
 
-https://github.com/kubernetes/community/blob/master/contributors/design-proposals/architecture/identifiers.md
-
-
+[https://github.com/kubernetes/community/blob/master/contributors/design-proposals/architecture/identifiers.md](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/architecture/identifiers.md)
 
