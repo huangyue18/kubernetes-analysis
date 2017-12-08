@@ -2,18 +2,18 @@
 
 1. prepare rpm packages & images  
    rpm packages:  
-       kubeadm-1.8.5-0.x86\_64.rpm  
-       kubelet-1.8.5-0.x86\_64.rpm  
-       kubectl-1.8.5-0.x86\_64.rpm
+       kubeadm-1.8.5-0.x86_64.rpm  
+       kubelet-1.8.5-0.x86_64.rpm  
+       kubectl-1.8.5-0.x86_64.rpm
 
    images:  
-       gcr.io/google\_containers/kube-apiserver-amd64:v1.8.5  
-       gcr.io/google\_containers/kube-apiserver-amd64:v1.8.5  
-       gcr.io/google\_containers/kube-apiserver-amd64:v1.8.5  
-       gcr.io/google\_containers/kube-apiserver-amd64:v1.8.5  
-       gcr.io/google\_containers/k8s-dns-kube-dns-amd64:1.14.5  
-       gcr.io/google\_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5  
-       gcr.io/google\_containers/k8s-dns-sidecar-amd64:1.14.5
+       gcr.io/google_containers/kube-apiserver-amd64:v1.8.5  
+       gcr.io/google_containers/kube-apiserver-amd64:v1.8.5  
+       gcr.io/google_containers/kube-apiserver-amd64:v1.8.5  
+       gcr.io/google_containers/kube-apiserver-amd64:v1.8.5  
+       gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.5  
+       gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5  
+       gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.5
 
 2. upgrade master kubeadm  
    `yum install kubeadm`
@@ -47,8 +47,4 @@
 **References:**  
     [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm-upgrade-1-8/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm-upgrade-1-8/)  
     [https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.8.md\#before-upgrading](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.8.md#before-upgrading)
-
-
-
-
 
