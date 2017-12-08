@@ -1,6 +1,7 @@
 ## kube-dns configures upstream DNS
 
-So that pods in kubernetes can visit Internet without host network.
+So that pods in kubernetes can visit Internet without host network.  
+This feature comes with Kubernetes v1.6
 
 ![](/assets/import.png)
 
@@ -31,5 +32,6 @@ kubectl edit deployment kube-dns -n kube-system
         name: kube-dns-config
 ```
 
-
+**Reference:**  
+[http://blog.kubernetes.io/2017/04/configuring-private-dns-zones-upstream-nameservers-kubernetes.html](http://blog.kubernetes.io/2017/04/configuring-private-dns-zones-upstream-nameservers-kubernetes.html)
 
