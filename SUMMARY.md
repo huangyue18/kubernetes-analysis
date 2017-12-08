@@ -6,4 +6,5 @@
 * [garbage collection](garbage-collection.md)
 * [leader election](leader-election.md)
 * [Upgrade Kubernetes from v1.7.x to v1.8.5](upgrade-kubernetes-from-v17x-to-v185.md)
+* [kube-dns configures upstream DNS](kube-dns-configures-upstream-dns.md)
 
