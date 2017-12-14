@@ -60,3 +60,9 @@ subsets: []
 
 ingress-nginx-controller 在 [status.go](https://github.com/kubernetes/ingress-nginx/blob/nginx-0.9.0-beta.17/pkg/ingress/status/status.go) 中用到了 leader election。ingress-nginx-controller 会 watch k8s 集群中 ingress 的状态，并且生成相应的配置文件。一般 k8s 中会有多个 ingress-nginx-controller，为了保证数据的统一，需要选举出一个 leader 进行操作。
 
+#### 4. leader election 在 kube-controller, kube-scheduler 中的应用
+
+[https://kubernetes.io/docs/admin/high-availability/\#master-elected-components](https://kubernetes.io/docs/admin/high-availability/#master-elected-components)
+
+
+
